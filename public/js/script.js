@@ -1,32 +1,75 @@
 const socket = io();
-//console.log(socket);
-/*socket.on("saludo",(saludo)=>{
-    console.log("Estoy recibiendo tu mensaje "+ saludo);
+
+var mensajeDiv = document.getElementById("mensaje");
+var datos = document.getElementById("datos");
+
+//MOSTRAR DATOS DE MONGODB
+socket.on("servidorEnviarUsuarios",(usuarios)=>{
+    var tr = "";
+    usuarios.forEach((usuario, idLocal) => {
+        tr = tr + `
+         <tr>
+             <td>${(idLocal+1)*100}</td>
+             <td>${usuario.nombre}</td>
+             <td>${usuario.usuario}</td>
+             <td>${usuario.password}</td>
+
+             <td>
+                 <a href="#" onClick="editarUsuario('${usuario._id}')">Editar</a> /
+                 <a href="#" onClick="borrarUsuario('${usuario._id}')">Editar</a>
+             </td>
+         </tr>
+
+        `;
+        
+    });
+
+    datos.innerHTML=tr;
+
 });
 
-socket.emit("respuesta","respuesta del cliente");*/
+//GUARDAR DATOS A MONGODB
 
-//http://localhost:3000/socket.io/socket.io.min.js
 
 var enviarDatos = document.getElementById("enviarDatos");
+
 enviarDatos.addEventListener("submit", (e)=>{
     e.preventDefault();
-    var nombre=document.getElementById("nombre").value;
-    var datos=document.getElementById("datos");
-    socket.emit("nombre", nombre);
-    socket.on("saludo", (saludo)=>{
-        //console.log(saludo);
-        datos.innerHTML = saludo;
-    })
 
-    /*var usuario=document.getElementById("usuario").value;
-    var password=document.getElementById("password").value;
-    console.log("Formulario enviado.............");
-    console.log("nombre");
-    console.log("usuario");
-    console.log("password");
-    document.getElementById("nombre").value="";
-    document.getElementById("usuario").value="";
-    document.getElementById("password").value="";
-    document.getElementById("nombre").focus();*/
+    //RECIBIR LOS DATOS DEL FORMULARIO
+    var usuario={
+        nombre:document.getElementById("nombre").value,
+        usuario:document.getElementById("usuario").value,
+        password:document.getElementById("password").value,
+
+    }
+    socket.emit("clienteGuardarUsuario", usuario);
+    socket.on("servidorEnviarUsuarios", (mensaje)=>{
+        console.log(mensaje);
+        mensajeDiv.innerHTML=mensaje;
+        setTimeout(()=>{
+            mensajeDiv.innerHTML="";
+
+        }, 3000);
+
+        //REINICIAR EL FORMULARIO
+        document.getElementById("nombre").value="";
+        document.getElementById("usuario").value="";
+        document.getElementById("password").value="";
+        document.getElementById("nombre").focus();
+
+    });
+   
 });
+
+
+//MODIFICAR UN REGISTRO DE MONGODB
+
+function editarUsuario(id){
+    console.log(id);
+}
+//ELIMINAR UN REGISTRO DE MONGODB
+
+function borrarUsuario(id){
+    console.log(id);
+}
