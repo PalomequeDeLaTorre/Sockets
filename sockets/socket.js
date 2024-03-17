@@ -9,10 +9,7 @@ function socket(io){ //IO ES DE INPUT (OUTPUT)
     async function mostrarUsuarios(){
         const usuarios=await Usuario.find();
         io.emit("servidorEnviarUsuarios", usuarios); 
-        
-       }
-
-
+    }
 
     //GUARDAR USUARIOS
 
@@ -21,7 +18,8 @@ function socket(io){ //IO ES DE INPUT (OUTPUT)
         console.log(usuario);
         try{
             await new Usuario(usuario).save();
-            io.emit("ServidorUsuarioGuardado","Usuario guardado");
+            io.emit("ServidorUsuarioRegistrado", "Usuario registrado");
+            mostrarUsuarios();
             console.log("Usuario guardado");
         }
         catch(err){
@@ -48,19 +46,20 @@ function socket(io){ //IO ES DE INPUT (OUTPUT)
         try {
             const usuarioActualizado = await Usuario.findByIdAndUpdate(id, datosActualizar, { new: true });
             console.log("Usuario actualizado:", usuarioActualizado);
+            io.emit("ServidorUsuarioActualizado", "Usuario actualizado");
             mostrarUsuarios(); //VUELVE A MOSTRAR LA LISTA DE USUARIOS DESPUES DE ACTUALIZAR UNO
         } catch (error) {
             console.log("Error al actualizar usuario:", error);
         }
     });
 
-    
     //ELIMINAR UN USUARIO
 
         socket.on("clienteBorrarUsuario", async (id) => {
             try {
                 await Usuario.findByIdAndDelete(id);
                 console.log("Usuario eliminado:", id);
+                io.emit("ServidorUsuarioBorrado", "Usuario borrado");
                 mostrarUsuarios(); //VUELVE A MOSTRAR LA LISTA DE USUARIOS DESPUES DE ELIMINAR UNO
             } catch (error) {
                 console.log("Error al borrar usuario:", error);

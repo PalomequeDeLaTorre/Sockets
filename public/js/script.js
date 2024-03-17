@@ -42,7 +42,10 @@ enviarDatos.addEventListener("submit", (e) => {
         password: document.getElementById("password").value,
     };
     socket.emit("clienteGuardarUsuario", usuario);
-    socket.on("servidorEnviarUsuarios", (mensaje) => {
+
+    //MUESTRA MENSAJE DE USUARIO REGISTRADO
+
+    socket.on("ServidorUsuarioRegistrado", (mensaje) => {
         console.log(mensaje);
         mensajeDiv.innerHTML = mensaje;
         setTimeout(() => {
@@ -70,6 +73,17 @@ function editarUsuario(id) {
 function borrarUsuario(id) {
     socket.emit("clienteBorrarUsuario", id);
 }
+
+ //MUESTRA MENSAJE DE USUARIO BORRADO
+
+socket.on("ServidorUsuarioBorrado", (mensaje) => {
+    console.log(mensaje);
+    mensajeDiv.innerHTML = mensaje;
+    setTimeout(() => {
+        mensajeDiv.innerHTML = "";
+    }, 3000);
+});
+
 
 //RECIBIR DATOS DEL USUARIO PARA EDITAR
 socket.on("servidorEnviarDatosUsuario", (usuario) => {
@@ -106,6 +120,17 @@ editarDatos.addEventListener("submit", (e) => {
     };
 
     socket.emit("clienteActualizarUsuario", usuario);
+
+    //MUESTRA MENSAJE DE USUARIO ACTUALIZADO
+
+    socket.on("ServidorUsuarioActualizado", (mensaje) => {
+        console.log(mensaje);
+        mensajeDiv.innerHTML = mensaje;
+        setTimeout(() => {
+            mensajeDiv.innerHTML = "";
+        }, 3000);
+    });
+    
 
     // RENICIAR EL FORMULARIO 
 
