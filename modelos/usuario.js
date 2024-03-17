@@ -1,4 +1,5 @@
 const {mongoose} =  require ("../bd/conexion");
+
 const usuarioSchema=new mongoose.Schema({
     nombre:{
         type:String,

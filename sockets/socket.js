@@ -1,15 +1,21 @@
 const Usuario=require("../modelos/usuario");
-function socket(io){ //io es de input , output
-    io.on("connection",(socket)=>{
+function socket(io){ //IO ES DE INPUT (OUTPUT)
+    io.on("connection", async (socket) => {
+
     //MOSTRAR USUARIOS
+    
     mostrarUsuarios();
+
     async function mostrarUsuarios(){
         const usuarios=await Usuario.find();
-        io.emit("ServidorEnviarUsuarios", usuarios);
+        io.emit("servidorEnviarUsuarios", usuarios); 
         
        }
 
+
+
     //GUARDAR USUARIOS
+
     socket.on("clienteGuardarUsuario", async (usuario)=>{
         console.log("Guardar usuario");
         console.log(usuario);
@@ -24,7 +30,43 @@ function socket(io){ //io es de input , output
 
     });
 
+     //EDITAR UN USUARIO
+
+     socket.on("clienteEditarUsuario", async (id) => {
+        try {
+            const usuario = await Usuario.findById(id);
+            socket.emit("servidorEnviarDatosUsuario", usuario);
+        } catch (error) {
+            console.log("Error al obtener usuario para edición:", error);
+        }
+    });
+
+    //ACTUALIZAR UN USUARIO
+
+    socket.on("clienteActualizarUsuario", async (datosUsuario) => {
+        const { id, datosActualizar } = datosUsuario;
+        try {
+            const usuarioActualizado = await Usuario.findByIdAndUpdate(id, datosActualizar, { new: true });
+            console.log("Usuario actualizado:", usuarioActualizado);
+            mostrarUsuarios(); //VUELVE A MOSTRAR LA LISTA DE USUARIOS DESPUES DE ACTUALIZAR UNO
+        } catch (error) {
+            console.log("Error al actualizar usuario:", error);
+        }
+    });
+
+    
+    //ELIMINAR UN USUARIO
+
+        socket.on("clienteBorrarUsuario", async (id) => {
+            try {
+                await Usuario.findByIdAndDelete(id);
+                console.log("Usuario eliminado:", id);
+                mostrarUsuarios(); //VUELVE A MOSTRAR LA LISTA DE USUARIOS DESPUES DE ELIMINAR UNO
+            } catch (error) {
+                console.log("Error al borrar usuario:", error);
+            }
+        });
         
-    }); //FIN IO.ON
+    }); //FIN IO (ON)
 }
 module.exports=socket;
