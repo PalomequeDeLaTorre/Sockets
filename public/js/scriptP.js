@@ -21,7 +21,6 @@ socket.on("servidorEnviarProductos", (productos) => {
             <tr>
                 <td>${(idLocal + 1) * 100}</td>
                 <td>${producto.nombre}</td>
-                <td>${producto.descripcion}</td>
                 <td>${producto.categoria}</td>
                 <td>${producto.precio}</td>
                 <td style="text-align: center;">
@@ -47,7 +46,6 @@ enviarDatos.addEventListener("submit", (e) => {
 
     var producto = {
         nombre: document.getElementById("nombreProducto").value,
-        descripcion: document.getElementById("descripcionProducto").value,
         categoria: document.getElementById("categoriaProducto").value,
         precio: document.getElementById("precioProducto").value,
     };
@@ -67,7 +65,6 @@ socket.on("servidorProductoRegistrado", (mensaje) => {
 
     //REINICIAR EL FORMULARIO
     document.getElementById("nombre").value = "";
-    document.getElementById("descripcion").value = "";
     document.getElementById("categoria").value = "";
     document.getElementById("precio").value = "";
     document.getElementById("nombre").focus();
@@ -101,7 +98,6 @@ socket.on("servidorProductoBorrado", (mensaje) => {
 socket.on("servidorEnviarDatosProducto", (producto) => {
     document.getElementById("editIdProducto").value = producto._id;
     document.getElementById("editNombreProducto").value = producto.nombre;
-    document.getElementById("editDescripcionProducto").value = producto.descripcion;
     document.getElementById("editCategoriaProducto").value = producto.categoria;
     document.getElementById("editPrecioProducto").value = producto.precio;
 
@@ -129,7 +125,6 @@ editarDatosProducto.addEventListener("submit", (e) => {
         id: document.getElementById("editIdProducto").value,
         datosActualizar: {
             nombre: document.getElementById("editNombreProducto").value,
-            descripcion: document.getElementById("editDescripcionProducto").value,
             categoria: document.getElementById("editCategoriaProducto").value,
             precio: document.getElementById("editPrecioProducto").value,
         },
