@@ -3,6 +3,7 @@ const socket = io();
 var mensajeDiv = document.getElementById("mensaje");
 var datos = document.getElementById("datos");
 
+
 //MOSTRAR DATOS DE MONGODB
 
 socket.on("servidorEnviarUsuarios", (usuarios) => {
@@ -14,11 +15,10 @@ socket.on("servidorEnviarUsuarios", (usuarios) => {
              <td>${usuario.nombre}</td>
              <td>${usuario.usuario}</td>
              <td>${usuario.password}</td>
-
-             <td>
-                 <a href="#" onClick="editarUsuario('${usuario._id}')">Editar</a> /
-                 <a href="#" onClick="borrarUsuario('${usuario._id}')">Borrar</a>
-             </td>
+             <td style="text-align: center;">
+             <a href="#" onClick="editarUsuario('${usuario._id}')" style="display: inline-block; padding: 5px 15px; border-radius: 5px; background-color: #2E8B57; color: white; text-align: center; text-decoration: none; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#228B22'" onmouseout="this.style.backgroundColor='#2E8B57'">Editar</a>
+             <a href="#" onClick="borrarUsuario('${usuario._id}')" style="display: inline-block; padding: 5px 15px; border-radius: 5px; background-color: #FF0000; color: white; text-align: center; text-decoration: none; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#B22222'" onmouseout="this.style.backgroundColor='#FF0000'">Borrar</a>
+         </td>
          </tr>
         `;
     });
@@ -86,6 +86,7 @@ socket.on("ServidorUsuarioBorrado", (mensaje) => {
 
 
 //RECIBIR DATOS DEL USUARIO PARA EDITAR
+
 socket.on("servidorEnviarDatosUsuario", (usuario) => {
     document.getElementById("editId").value = usuario._id;
     document.getElementById("editNombre").value = usuario.nombre;
