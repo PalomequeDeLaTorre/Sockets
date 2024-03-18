@@ -5,6 +5,7 @@ function socket(io) {
     io.on("connection", async (socket) => {
 
         // MOSTRAR USUARIOS
+        
         mostrarUsuarios();
 
         async function mostrarUsuarios() {
@@ -13,6 +14,7 @@ function socket(io) {
         }
 
         // GUARDAR USUARIOS
+
         socket.on("clienteGuardarUsuario", async (usuario) => {
             console.log("Guardar usuario");
             console.log(usuario);
@@ -27,6 +29,7 @@ function socket(io) {
         });
 
         // EDITAR UN USUARIO
+
         socket.on("clienteEditarUsuario", async (id) => {
             try {
                 const usuario = await Usuario.findById(id);
@@ -37,6 +40,7 @@ function socket(io) {
         });
 
         // ACTUALIZAR UN USUARIO
+
         socket.on("clienteActualizarUsuario", async (datosUsuario) => {
             const { id, datosActualizar } = datosUsuario;
             try {
@@ -50,6 +54,7 @@ function socket(io) {
         });
 
         // ELIMINAR UN USUARIO
+
         socket.on("clienteBorrarUsuario", async (id) => {
             try {
                 await Usuario.findByIdAndDelete(id);
@@ -61,7 +66,7 @@ function socket(io) {
             }
         });
 
-        ///////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////
 
         // MOSTRAR PRODUCTOS
 
@@ -111,6 +116,7 @@ function socket(io) {
         });
 
         // ELIMINAR UN PRODUCTO
+
         socket.on("clienteBorrarProducto", async (id) => {
             try {
             await Producto.findByIdAndDelete(id);

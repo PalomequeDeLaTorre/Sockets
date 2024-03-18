@@ -11,8 +11,7 @@ async function conectarMongo(){
     
     catch(err){
         console.log("Error en la conexion a mongo"+err);
-    }
-    
+    } 
 }
 
 module.exports={ mongoose, conectarMongo}

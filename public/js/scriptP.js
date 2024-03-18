@@ -1,14 +1,5 @@
 const socket = io();
 
-// Maneja el evento de clic en el botón de borrar datos
-document.getElementById("borrarDatos").addEventListener("click", () => {
-    // Lógica para borrar los datos (limpiar los campos, etc.)
-    document.getElementById("nombreProducto").value = "";
-    document.getElementById("descripcionProducto").value = "";
-    document.getElementById("categoriaProducto").value = "";
-    document.getElementById("precioProducto").value = "";
-});
-
 var mensajeDiv = document.getElementById("mensaje");
 var datos = document.getElementById("datos");
 
@@ -35,6 +26,14 @@ socket.on("servidorEnviarProductos", (productos) => {
     datos.innerHTML = tr;
 });
 
+document.getElementById("borrarDatos").addEventListener("click", () => {
+    document.getElementById("nombreProducto").value = "";
+    document.getElementById("descripcionProducto").value = "";
+    document.getElementById("categoriaProducto").value = "";
+    document.getElementById("precioProducto").value = "";
+});
+
+
 // GUARDAR DATOS A MONGODB
 
 var enviarDatos = document.getElementById("enviarDatos");
@@ -52,9 +51,8 @@ enviarDatos.addEventListener("submit", (e) => {
     socket.emit("clienteGuardarProducto", producto);
 });
 
-//MUESTRA MENSAJE DE USUARIO REGISTRADO
-
 // MUESTRA MENSAJE DE PRODUCTO REGISTRADO
+
 socket.on("servidorProductoRegistrado", (mensaje) => {
     console.log(mensaje);
     mensajeDiv.innerHTML = mensaje;
@@ -64,13 +62,12 @@ socket.on("servidorProductoRegistrado", (mensaje) => {
 
 
     //REINICIAR EL FORMULARIO
+
     document.getElementById("nombre").value = "";
     document.getElementById("categoria").value = "";
     document.getElementById("precio").value = "";
     document.getElementById("nombre").focus();
 });
-
-
 
 // EDITAR UN PRODUCTO
 
@@ -79,12 +76,14 @@ function editarProducto(id) {
 }
 
 // ELIMINAR UN REGISTRO DE MONGODB
+
 function borrarProducto(id) {
     socket.emit("clienteBorrarProducto", id);
 }
 
 
 // MUESTRA MENSAJE DE PRODUCTO BORRADO
+
 socket.on("servidorProductoBorrado", (mensaje) => {
     console.log(mensaje);
     mensajeDiv.innerHTML = mensaje;
@@ -111,8 +110,6 @@ document.getElementById("cancelarEdicion").addEventListener("click", () => {
     document.getElementById("editarDatos").style.display = "none";
     document.getElementById("enviarDatos").style.display = "block";
 });
-
-
 
 // ACTUALIZAR UN PRODUCTO
 
