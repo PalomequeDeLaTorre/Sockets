@@ -64,5 +64,15 @@ h1 {
     background-color: rgba(0, 0, 0, 0.993);
 }
 
+.custom-btn {
+    background-color: rgb(0, 159, 180);
+    transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover {
+    background-color: rgb(1, 197, 223);
+}
+
+
 
 
