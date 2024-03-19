@@ -1,5 +1,4 @@
 .env
 node_modules
 .gitignore
-git add .gitignore
-git commit -m "Agregado .gitignore para ignorar .env y node_modules"
+
