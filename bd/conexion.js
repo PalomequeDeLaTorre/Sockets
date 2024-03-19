@@ -15,5 +15,3 @@ async function conectarMongo(){
 }
 
 module.exports={ mongoose, conectarMongo}
-
-conectarMongo();

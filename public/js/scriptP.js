@@ -6,6 +6,7 @@ var datos = document.getElementById("datos");
 // MOSTRAR DATOS DE MONGODB
 
 socket.on("servidorEnviarProductos", (productos) => {
+    
     var tr = "";
     productos.forEach((producto, idLocal) => {
         tr += `
@@ -145,3 +146,6 @@ editarDatosProducto.addEventListener("submit", (e) => {
     document.getElementById("enviarDatos").style.display = "block";
     document.getElementById("editarDatos").style.display = "none";
 });
+
+
+
