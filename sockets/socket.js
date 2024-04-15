@@ -68,7 +68,7 @@ function socket(io) {
 
         ////////////////////////////////////////////////////////////////////////////
 
-        // MOSTRAR PRODUCTOS
+        // MOSTRAR_PRODUCTOS TODOS
 
         mostrarProductos();
 
